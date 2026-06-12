@@ -12,7 +12,6 @@ copy-pasting, no snapshots, no switching editors.
 ```bash
 npx reposync
 ```
-new lineInvoke-RestMethod "http://localhost:3210/diff?since=$since" -Headers @{ Authorization = "Bearer $key" }
 ---
 
 ## Quick start

@@ -1,6 +1,7 @@
 import { resolve } from 'node:path'
 import { Command } from 'commander'
 import { createRepoSync } from './server.js'
+import { resolveAuthKey } from './auth.js'
 import { buildIgnore } from './ignore.js'
 import { generateOpenApiSpec } from './openapi.js'
 import { RepoWatcher } from './watcher.js'
@@ -82,7 +83,7 @@ async function run(opts: CliOptions): Promise<void> {
     repoPath,
     port: Number(opts.port),
     tunnel,
-    authKey: opts.authKey,
+    authKey: resolveAuthKey(opts.authKey),
     ignore: extraIgnore
   })
 
