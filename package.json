@@ -1,0 +1,65 @@
+{
+  "name": "repsyn",
+  "version": "0.1.0",
+  "description": "Bridge any AI chat frontend to a live local repo via a standard REST + OpenAPI protocol.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Paramarsh Labs",
+  "keywords": [
+    "openapi",
+    "chatgpt",
+    "gpt-actions",
+    "claude",
+    "repo",
+    "file-watcher",
+    "ngrok"
+  ],
+  "bin": {
+    "reposync": "bin/reposync.js"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsx src/cli.ts",
+    "start": "node bin/reposync.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0",
+    "commander": "^12.1.0",
+    "express": "^4.21.2",
+    "glob": "^10.4.5",
+    "ignore": "^5.3.2",
+    "zod": "^3.23.8"
+  },
+  "optionalDependencies": {
+    "@ngrok/ngrok": "^1.4.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.10.0",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

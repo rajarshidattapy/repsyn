@@ -1,0 +1,7 @@
+# RepoSync ignore file — same syntax as .gitignore.
+# These are merged with RepoSync's secure defaults (.env*, *.pem, *.key,
+# *.p12, secrets/, node_modules/, .git/, dist/, build/, *.lock).
+# Add project-specific exclusions below.
+
+coverage/
+*.log
