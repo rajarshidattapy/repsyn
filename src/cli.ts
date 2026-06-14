@@ -1,4 +1,5 @@
 import { resolve } from 'node:path'
+import { readFileSync, existsSync } from 'node:fs'
 import { Command } from 'commander'
 import { createRepoSync } from './server.js'
 import { resolveAuthKey } from './auth.js'
@@ -45,8 +46,35 @@ export function buildProgram(): Command {
   return program
 }
 
+/**
+ * Lightweight .env loader — reads key=value pairs and sets any env vars
+ * that aren't already defined. No external dependency needed.
+ */
+function loadDotEnv(dir: string): void {
+  const envPath = resolve(dir, '.env')
+  if (!existsSync(envPath)) return
+  try {
+    const content = readFileSync(envPath, 'utf8')
+    for (const raw of content.split(/\r?\n/)) {
+      const line = raw.trim()
+      if (!line || line.startsWith('#')) continue
+      const eq = line.indexOf('=')
+      if (eq < 1) continue
+      const key = line.slice(0, eq).trim()
+      const val = line.slice(eq + 1).trim().replace(/^["']|["']$/g, '')
+      // Only set if not already present, so real env wins.
+      if (process.env[key] === undefined) {
+        process.env[key] = val
+      }
+    }
+  } catch {
+    // Non-fatal: the user may not have a .env file.
+  }
+}
+
 async function run(opts: CliOptions): Promise<void> {
   const repoPath = resolve(opts.repo)
+  loadDotEnv(repoPath)
   const extraIgnore = parseIgnore(opts.ignore)
 
   // --openapi: print spec for the repo and exit without starting a server.

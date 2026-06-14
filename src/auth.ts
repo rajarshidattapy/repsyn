@@ -68,8 +68,6 @@ function safeEqual(a: string, b: string): boolean {
  */
 export function bearerAuth(authKey: string): RequestHandler {
   return (req, res, next) => {
-    if (req.path === '/health') return next()
-
     const header = req.get('authorization') ?? ''
     const match = /^Bearer\s+(.+)$/i.exec(header.trim())
     const token = match?.[1]
